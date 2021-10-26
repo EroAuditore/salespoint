@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Layout from './components/layout';
 import Home from './components/home';
+import { useDispatch } from 'react-redux';
+import { loadProducts } from './redux/actions/products';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getProducts = () => dispatch(loadProducts());
+    getProducts();
+  }, []);
   return (
     <Router>
       <Layout>
