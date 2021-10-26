@@ -144,8 +144,6 @@ export default function Layout({ children }) {
       <Main open={open}>
         <DrawerHeader />
         {children}
-        <Typography paragraph>first</Typography>
-        <Typography paragraph>Second paragraph</Typography>
       </Main>
     </Box>
   );
