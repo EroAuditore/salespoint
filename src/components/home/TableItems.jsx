@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 
-const TableItems = () => {
+const TableItems = ({ items }) => {
   // const columns = [
   //   { field: 'id', headerName: 'ID', width: 20 },
   //   {
@@ -49,13 +49,13 @@ const TableItems = () => {
 
   const columns = React.useMemo(
     () => [
-      { field: 'id', headerName: 'ID', width: 20 },
+      { field: '_id', headerName: 'No', width: 20 },
       {
         field: 'description',
         headerName: 'Descriptivo',
         width: 250,
       },
-      { field: '', headerName: 'Cantidad', width: 80 },
+      { field: 'quantity', headerName: 'Cantidad', width: 80 },
       {
         field: 'sale_price',
         headerName: 'Precio',
@@ -68,7 +68,13 @@ const TableItems = () => {
         type: 'number',
         width: 120,
       },
-      { field: '', headerName: 'Total', width: 80 },
+      {
+        field: 'sub_total',
+        headerName: 'Sub total',
+        width: 80,
+        type: 'number',
+      },
+      { field: 'total', headerName: 'Total', width: 80, type: 'number' },
       {
         field: 'actions',
         type: 'actions',
@@ -97,12 +103,10 @@ const TableItems = () => {
     []
     // [deleteUser, toggleAdmin, duplicateUser],
   );
-
-  const rows = [];
   return (
     <DataGrid
       columns={columns}
-      rows={rows}
+      rows={items}
       pageSize={15}
       rowsPerPageOptions={[5]}
     />

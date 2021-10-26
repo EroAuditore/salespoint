@@ -6,7 +6,6 @@ import { LOAD_PRODUCTS, LOAD_SUCCESS, LOAD_FAIL } from './../actions/products';
 export function* loadProducts({ payload }) {
   try {
     const result = yield call(apiCall, 'products', payload, null, 'GET');
-    console.log('result', result);
     yield put({ type: LOAD_SUCCESS, result });
   } catch (error) {
     console.log(error);

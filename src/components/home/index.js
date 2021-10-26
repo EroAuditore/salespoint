@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import uuid from 'react-uuid';
+import { useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -16,6 +18,34 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Home = () => {
+  const [barCode, setBarcode] = useState('');
+  const [purchase, setPurchase] = useState([]);
+  const data = useSelector((state) => state.products);
+
+  const findProduct = (code) => {
+    const { data: productos } = data;
+    const product = productos.find((product) => product.code === barCode);
+    return product;
+  };
+
+  const handleOnChange = (e) => {
+    setBarcode(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const product = Object.create(findProduct());
+      if (product !== typeof 'undefined') {
+        product.id = uuid();
+        product.quantity = 1;
+        //Sub total is for bulk items
+        product.sub_total = product.sale_price;
+        product.total = product.sub_total * product.quantity;
+        setPurchase([...purchase, product]);
+      }
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -26,15 +56,24 @@ const Home = () => {
             label="Code bar"
             variant="outlined"
             fullWidth
+            onChange={handleOnChange}
+            onKeyDown={handleKeyDown}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <Item>
-            <TableItems />
+            <TableItems items={purchase} />
           </Item>
         </Grid>
-        <Grid item xs={4}>
-          <TotalCard />
+        <Grid item xs={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TotalCard />
+            </Grid>
+            <Grid item xs={12}>
+              <TotalCard />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Box>
