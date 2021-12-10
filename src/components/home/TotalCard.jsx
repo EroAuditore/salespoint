@@ -1,17 +1,17 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import CountUp from 'react-countup';
+import React from "react";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import CountUp from "react-countup";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: 'center',
+  textAlign: "center",
   color: theme.palette.text.secondary,
 }));
 
-const TotalCard = () => {
+const TotalCard = ({ total }) => {
   return (
     <Item>
       <Typography variant="h3" gutterBottom color="textSecondary">
@@ -19,15 +19,15 @@ const TotalCard = () => {
       </Typography>
       <Typography variant="h2" gutterBottom color="textPrimary">
         <CountUp
-          start={0}
-          end={0}
+          start={total}
+          end={total}
           duration={2}
           separator=","
           decimals={2}
           decimal="."
           prefix="$ "
         />
-      </Typography>{' '}
+      </Typography>{" "}
     </Item>
   );
 };
