@@ -27,7 +27,7 @@ const TotalCard = ({ total }) => {
           decimal="."
           prefix="$ "
         />
-      </Typography>{" "}
+      </Typography>
     </Item>
   );
 };

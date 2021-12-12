@@ -8,6 +8,8 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import TotalCard from "./TotalCard";
 import TableItems from "./TableItems";
+import ActionsCard from "./ActionsCard";
+import DialogCharge from "./DialogCharge";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -22,6 +24,9 @@ const Home = () => {
   const [purchase, setPurchase] = useState([]);
   const data = useSelector((state) => state.products);
   const [total, setTotal] = useState(0);
+  const [cambio, setCambio] = useState(0);
+  const [cantidad, setCantidad] = useState("");
+  const [open, setOpen] = React.useState(false);
 
   const findProduct = () => {
     const { data: productos } = data;
@@ -31,6 +36,18 @@ const Home = () => {
 
   const handleOnChange = (e) => {
     setBarcode(e.target.value);
+  };
+
+  const handleChange = (e) => {
+    setCantidad(e.target.value);
+    setCambio(e.target.value - total);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleKeyDown = (e) => {
@@ -75,11 +92,19 @@ const Home = () => {
               <TotalCard total={total} />
             </Grid>
             <Grid item xs={12}>
-              <TotalCard />
+              <ActionsCard handleOpen={handleOpen} />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <DialogCharge
+        handleClose={handleClose}
+        open={open}
+        Total={total}
+        cantidad={cantidad}
+        cambio={cambio}
+        handleChange={handleChange}
+      />
     </Box>
   );
 };
