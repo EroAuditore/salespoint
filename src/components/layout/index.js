@@ -122,8 +122,8 @@ export default function Layout({ children }) {
         <Divider />
         <List>
           {[
-            ["Ventas", "/sales"],
-            ["Productos", "/product"],
+            ["Home", "/"],
+            ["Productos", "/products"],
             ["Clientes", "/clients"],
             ["Creditos", "/credits"],
           ].map((text, index) => (
