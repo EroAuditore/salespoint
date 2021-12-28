@@ -12,7 +12,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-const ProductForm = ({ handleChange, product }) => {
+const ProductForm = ({ handleChange, product, handleSave }) => {
   const { description, code, sale_price, purchase_price, bulk_price, bulk } =
     product;
   return (
@@ -100,7 +100,7 @@ const ProductForm = ({ handleChange, product }) => {
           </FormGroup>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" fullWidth>
+          <Button variant="contained" fullWidth onClick={handleSave}>
             Guardar
           </Button>
         </Grid>

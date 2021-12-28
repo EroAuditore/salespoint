@@ -18,6 +18,7 @@ const Products = () => {
   const { data } = useSelector((state) => state.products);
 
   const [searchText, setSearchText] = useState("");
+  const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({
     id: 0,
     description: "",
@@ -42,8 +43,12 @@ const Products = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       console.log("do find product", e.target.value);
-      findProduct(e.target.value);
+      setProducts(findProduct(e.target.value));
     }
+  };
+
+  const handleSave = () => {
+    console.log("Save", product);
   };
 
   const findProduct = (prod) => {
@@ -72,12 +77,16 @@ const Products = () => {
 
         <Grid item xs={4}>
           <Item>
-            <ProductForm handleChange={handleChange} product={product} />
+            <ProductForm
+              handleChange={handleChange}
+              product={product}
+              handleSave={handleSave}
+            />
           </Item>
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <TableItems items={data} />
+            <TableItems items={products} />
           </Item>
         </Grid>
       </Grid>
