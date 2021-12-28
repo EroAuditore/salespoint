@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -17,6 +17,43 @@ const Item = styled(Paper)(({ theme }) => ({
 const Products = () => {
   const { data } = useSelector((state) => state.products);
 
+  const [searchText, setSearchText] = useState("");
+  const [product, setProduct] = useState({
+    id: 0,
+    description: "",
+    code: "",
+    sale_price: "",
+    purchase_price: "",
+    bulk_price: "",
+    bulk: false,
+  });
+  const handleChange = (e) => {
+    if (e.target.name === "bulk") {
+      setProduct({ ...product, [e.target.name]: e.target.checked });
+    } else {
+      setProduct({ ...product, [e.target.name]: e.target.value });
+    }
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      console.log("do find product", e.target.value);
+      findProduct(e.target.value);
+    }
+  };
+
+  const findProduct = (prod) => {
+    let productFilter = data.filter((product) =>
+      product.description.toLowerCase().includes(prod.toLowerCase())
+    );
+
+    return productFilter;
+  };
+
   return (
     <>
       <Grid container spacing={2}>
@@ -27,15 +64,15 @@ const Products = () => {
             label="Busqueda producto"
             variant="outlined"
             fullWidth
-            //   value={barCode}
-            //   onChange={handleOnChange}
-            //   onKeyDown={handleKeyDown}
+            value={searchText}
+            onChange={handleChangeSearch}
+            onKeyDown={handleKeyDown}
           />
         </Grid>
 
         <Grid item xs={4}>
           <Item>
-            <ProductForm />
+            <ProductForm handleChange={handleChange} product={product} />
           </Item>
         </Grid>
         <Grid item xs={8}>

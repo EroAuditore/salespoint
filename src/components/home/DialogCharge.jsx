@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -58,11 +58,8 @@ const DialogCharge = ({
   cambio,
   cantidad,
   handleChange,
+  inputChargeRef,
 }) => {
-  useEffect(() => {
-    console.log("renreded");
-  }, [open]);
-
   return (
     <BootstrapDialog
       onClose={handleClose}
@@ -104,11 +101,7 @@ const DialogCharge = ({
               fullWidth
               onChange={handleChange}
               value={cantidad}
-              inputRef={(input) => {
-                if (input != null) {
-                  input.focus();
-                }
-              }}
+              inputRef={inputChargeRef}
             />
           </Grid>
           <Grid item xs={6}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import uuid from "react-uuid";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
@@ -27,6 +27,8 @@ const Home = () => {
   const [cambio, setCambio] = useState(0);
   const [cantidad, setCantidad] = useState("");
   const [open, setOpen] = React.useState(false);
+  const inputChargeRef = useRef();
+  const codeRef = useRef();
 
   const findProduct = () => {
     const { data: productos } = data;
@@ -44,10 +46,16 @@ const Home = () => {
   };
 
   const handleOpen = () => {
+    setTimeout(() => {
+      inputChargeRef.current.focus();
+    }, 100);
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setTimeout(() => {
+      codeRef.current.focus();
+    }, 100);
   };
 
   const handleKeyDown = (e) => {
@@ -66,6 +74,10 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    codeRef.current.focus();
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -79,6 +91,7 @@ const Home = () => {
             value={barCode}
             onChange={handleOnChange}
             onKeyDown={handleKeyDown}
+            inputRef={codeRef}
           />
         </Grid>
         <Grid item xs={9}>
@@ -104,6 +117,7 @@ const Home = () => {
         cantidad={cantidad}
         cambio={cambio}
         handleChange={handleChange}
+        inputChargeRef={inputChargeRef}
       />
     </Box>
   );

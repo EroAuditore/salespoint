@@ -12,20 +12,31 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-const ProductForm = () => {
+const ProductForm = ({ handleChange, product }) => {
+  const { description, code, sale_price, purchase_price, bulk_price, bulk } =
+    product;
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             id="txtDescription"
-            name="txtDescription"
+            name="description"
             label="Descripcion"
             fullWidth
+            value={description}
+            onChange={handleChange}
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField id="txtCodigo" label="Codigo" name="txtCodigo" fullWidth />
+          <TextField
+            id="txtCodigo"
+            name="code"
+            value={code}
+            onChange={handleChange}
+            label="Codigo"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
@@ -34,8 +45,9 @@ const ProductForm = () => {
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
-              //   value={values.amount}
-              //   onChange={handleChange("amount")}
+              name="purchase_price"
+              value={purchase_price}
+              onChange={handleChange}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -50,8 +62,9 @@ const ProductForm = () => {
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
-              //   value={values.amount}
-              //   onChange={handleChange("amount")}
+              name="sale_price"
+              value={sale_price}
+              onChange={handleChange}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -66,8 +79,9 @@ const ProductForm = () => {
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
-              //   value={values.amount}
-              //   onChange={handleChange("amount")}
+              name="bulk_price"
+              value={bulk_price}
+              onChange={handleChange}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -77,7 +91,12 @@ const ProductForm = () => {
         </Grid>
         <Grid item xs={12}>
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Venta a granel" />
+            <FormControlLabel
+              control={
+                <Checkbox checked={bulk} name="bulk" onChange={handleChange} />
+              }
+              label="Venta a granel"
+            />
           </FormGroup>
         </Grid>
         <Grid item xs={12}>

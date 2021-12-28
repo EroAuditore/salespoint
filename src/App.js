@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const getProducts = () => dispatch(loadProducts());
     getProducts();
-  }, []);
+  }, [dispatch]);
   return (
     <Router>
       <Layout>
