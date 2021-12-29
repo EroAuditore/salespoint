@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -42,14 +42,33 @@ const Products = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      console.log("do find product", e.target.value);
       setProducts(findProduct(e.target.value));
     }
   };
 
   const handleSave = () => {
-    console.log("Save", product);
+    setProducts((prevRows) =>
+      prevRows.map((row) =>
+        row.id === product.id ? { ...row, ...product } : row
+      )
+    );
+    setProduct({
+      id: 0,
+      description: "",
+      code: "",
+      sale_price: "",
+      purchase_price: "",
+      bulk_price: "",
+      bulk: false,
+    });
   };
+
+  const handleEdit = useCallback(
+    (product) => () => {
+      setProduct({ ...product.row });
+    },
+    []
+  );
 
   const findProduct = (prod) => {
     let productFilter = data.filter((product) =>
@@ -86,7 +105,7 @@ const Products = () => {
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <TableItems items={products} />
+            <TableItems items={products} editProduct={handleEdit} />
           </Item>
         </Grid>
       </Grid>

@@ -1,36 +1,34 @@
 import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import SecurityIcon from "@mui/icons-material/Security";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
+import EditIcon from "@mui/icons-material/Edit";
 
-const TableItems = ({ items }) => {
+const TableItems = ({ items, editProduct }) => {
   const columns = React.useMemo(
     () => [
       { field: "_id", headerName: "No", width: 30 },
       {
         field: "description",
         headerName: "Descriptivo",
-        width: 300,
+        width: 350,
       },
       {
         field: "purchase_price",
         headerName: "Precio compra",
         type: "number",
-        width: 100,
+        width: 150,
       },
       {
         field: "sale_price",
         headerName: "Precio venta",
         type: "number",
-        width: 100,
+        width: 150,
       },
       {
         field: "bulk_price",
         headerName: "Precio granel",
         type: "number",
-        width: 120,
+        width: 150,
       },
 
       {
@@ -39,27 +37,14 @@ const TableItems = ({ items }) => {
         width: 80,
         getActions: (params) => [
           <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            // onClick={deleteUser(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<SecurityIcon />}
-            label="Toggle Admin"
-            // onClick={toggleAdmin(params.id)}
-            showInMenu
-          />,
-          <GridActionsCellItem
-            icon={<FileCopyIcon />}
-            label="Duplicate User"
-            // onClick={duplicateUser(params.id)}
-            showInMenu
+            icon={<EditIcon />}
+            label="Edit"
+            onClick={editProduct(params)}
           />,
         ],
       },
     ],
-    []
-    // [deleteUser, toggleAdmin, duplicateUser],
+    [editProduct]
   );
 
   return (
