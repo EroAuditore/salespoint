@@ -23,7 +23,7 @@ export function* loadProducts({ payload }) {
 
 export function* updateProducts({ payload }) {
   try {
-    yield call(apiCall, "product/update", payload, null, "POST");
+    yield call(apiCall, "product/update", payload, null, "PUT");
     yield put({ type: UPDATE_SUCCESS });
   } catch (error) {
     yield put({ type: UPDATE_FAIL });

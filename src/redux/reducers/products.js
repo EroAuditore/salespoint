@@ -1,4 +1,14 @@
-import { LOAD_PRODUCTS, LOAD_SUCCESS, LOAD_FAIL } from "./../actions/products";
+import {
+  LOAD_PRODUCTS,
+  LOAD_SUCCESS,
+  LOAD_FAIL,
+  UPDATE_PRODUCTS,
+  UPDATE_SUCCESS,
+  UPDATE_FAIL,
+  CREATE_PRODUCTS,
+  CREATE_SUCCESS,
+  CREATE_FAIL,
+} from "./../actions/products";
 
 const initialState = { data: [], isUpdated: false, errorUpdate: false };
 

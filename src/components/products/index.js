@@ -4,8 +4,9 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import TableItems from "./TableItems";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ProductForm from "./ProductForm";
+import { updateProducts } from "./../../redux/actions/products";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -28,6 +29,9 @@ const Products = () => {
     bulk_price: "",
     bulk: false,
   });
+
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     if (e.target.name === "bulk") {
       setProduct({ ...product, [e.target.name]: e.target.checked });
@@ -47,6 +51,7 @@ const Products = () => {
   };
 
   const handleSave = () => {
+    dispatch(updateProducts(product));
     setProducts((prevRows) =>
       prevRows.map((row) =>
         row.id === product.id ? { ...row, ...product } : row
