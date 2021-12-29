@@ -1,9 +1,10 @@
 import { LOAD_PRODUCTS, LOAD_SUCCESS, LOAD_FAIL } from "./../actions/products";
 
-const initialState = { data: [] };
+const initialState = { data: [], isUpdated: false, errorUpdate: false };
 
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    /******* LOAD PRODUCTS *******/
     case LOAD_PRODUCTS:
       return { ...state };
     case LOAD_SUCCESS:
@@ -12,6 +13,28 @@ export const productsReducer = (state = initialState, action) => {
       });
       return { ...state, data: action.result.data.data };
     case LOAD_FAIL:
+      return { ...state };
+    /******* UPDATE PRODUCTS *******/
+    case UPDATE_PRODUCTS:
+      return { ...state, isUpdating: false, errorUpdate: false };
+    case UPDATE_SUCCESS:
+      return {
+        ...state,
+        isUpdated: true,
+        data: state.data.map((product) =>
+          product.id === action.payload.id
+            ? (product = action.payload)
+            : product
+        ),
+      };
+    case UPDATE_FAIL:
+      return { ...state, errorUpdate: true };
+    /******* CREATE PRODUCTS *******/
+    case CREATE_PRODUCTS:
+      return { ...state };
+    case CREATE_SUCCESS:
+      return { ...state };
+    case CREATE_FAIL:
       return { ...state };
     default:
       return state;
