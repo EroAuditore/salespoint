@@ -24,7 +24,7 @@ export function* loadProducts({ payload }) {
 export function* updateProducts({ payload }) {
   try {
     yield call(apiCall, "product/update", payload, null, "PUT");
-    yield put({ type: UPDATE_SUCCESS });
+    yield put({ type: UPDATE_SUCCESS, payload });
   } catch (error) {
     yield put({ type: UPDATE_FAIL });
   }
