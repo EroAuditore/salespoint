@@ -4,7 +4,7 @@ import toastReducer from "./toast";
 
 const allReducers = combineReducers({
   products: productsReducer,
-  toastReducer,
+  toast: toastReducer,
 });
 
 export default allReducers;

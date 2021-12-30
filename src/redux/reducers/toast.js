@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = { open: false, severity: "", message: "" };
 
 const toastReducer = createSlice({
-  name: "toastReducer",
+  name: "toast",
   initialState,
   reducers: {
     openToast(state, action) {

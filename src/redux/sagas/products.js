@@ -1,5 +1,6 @@
 import { put, call, all, takeEvery } from "redux-saga/effects";
 import apiCall from "../api/index";
+import { openToast } from "../reducers/toast";
 import {
   LOAD_PRODUCTS,
   LOAD_SUCCESS,
@@ -25,7 +26,16 @@ export function* updateProducts({ payload }) {
   try {
     yield call(apiCall, "product/update", payload, null, "PUT");
     yield put({ type: UPDATE_SUCCESS, payload });
+    yield put(
+      openToast({ severity: "success", message: "Producto actualizado" })
+    );
   } catch (error) {
+    yield put(
+      openToast({
+        severity: "error",
+        message: "No se actualizo el producto intentelo mas tarde",
+      })
+    );
     yield put({ type: UPDATE_FAIL });
   }
 }

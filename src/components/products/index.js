@@ -7,6 +7,7 @@ import TableItems from "./TableItems";
 import { useSelector, useDispatch } from "react-redux";
 import ProductForm from "./ProductForm";
 import { updateProducts } from "./../../redux/actions/products";
+import Toast from "./../common/Toast";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -113,6 +114,7 @@ const Products = () => {
             <TableItems items={products} editProduct={handleEdit} />
           </Item>
         </Grid>
+        <Toast />
       </Grid>
     </>
   );
