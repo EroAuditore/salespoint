@@ -10,9 +10,16 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
+  FormHelperText,
 } from "@mui/material";
 
-const ProductForm = ({ handleChange, product, handleSave }) => {
+const ProductForm = ({
+  handleChange,
+  product,
+  handleSave,
+  newProduct,
+  errors,
+}) => {
   const { description, code, sale_price, purchase_price, bulk_price, bulk } =
     product;
   return (
@@ -20,6 +27,8 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
+            error={errors["description"] ? true : false}
+            helperText={errors["description"]}
             id="txtDescription"
             name="description"
             label="Descripcion"
@@ -36,6 +45,8 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
             onChange={handleChange}
             label="Codigo"
             fullWidth
+            error={errors["code"] ? true : false}
+            helperText={errors["code"]}
           />
         </Grid>
         <Grid item xs={12}>
@@ -52,7 +63,14 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
                 <InputAdornment position="start">$</InputAdornment>
               }
               label="Precio compra"
+              error={errors["purchase_price"] ? true : false}
             />
+            <FormHelperText
+              id="outlined-weight-helper-text"
+              error={errors["purchase_price"] ? true : false}
+            >
+              {errors["purchase_price"]}
+            </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
@@ -69,7 +87,14 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
                 <InputAdornment position="start">$</InputAdornment>
               }
               label="Precio venta"
+              error={errors["sale_price"] ? true : false}
             />
+            <FormHelperText
+              id="outlined-weight-helper-text"
+              error={errors["sale_price"] ? true : false}
+            >
+              {errors["sale_price"]}
+            </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
@@ -86,8 +111,15 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
                 <InputAdornment position="start">$</InputAdornment>
               }
               label="Precio granel"
+              error={errors["bulk_price"] ? true : false}
             />
           </FormControl>
+          <FormHelperText
+            id="outlined-weight-helper-text"
+            error={errors["bulk_price"] ? true : false}
+          >
+            {errors["bulk_price"]}
+          </FormHelperText>
         </Grid>
         <Grid item xs={12}>
           <FormGroup>
@@ -101,7 +133,7 @@ const ProductForm = ({ handleChange, product, handleSave }) => {
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" fullWidth onClick={handleSave}>
-            Guardar
+            {!newProduct ? "Editar producto" : "Crear producto"}
           </Button>
         </Grid>
       </Grid>

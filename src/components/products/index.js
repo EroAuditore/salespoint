@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import TableItems from "./TableItems";
 import { useSelector, useDispatch } from "react-redux";
+import { object, string, number } from "yup";
+
 import ProductForm from "./ProductForm";
 import { updateProducts } from "./../../redux/actions/products";
 import Toast from "./../common/Toast";
@@ -14,13 +16,15 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
-  height: "500px",
+  height: "590px",
 }));
 const Products = () => {
   const { data } = useSelector((state) => state.products);
 
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [newProduct, setNewProduct] = useState(true);
   const [product, setProduct] = useState({
     id: 0,
     description: "",
@@ -32,6 +36,18 @@ const Products = () => {
   });
 
   const dispatch = useDispatch();
+
+  const schema = object({
+    description: string().required("Desscripción es requerida"),
+    code: string().required("Codigo es requerido"),
+    sale_price: number()
+      .typeError("Precio debe ser numero")
+      .required("Precio de venta requerido"),
+    purchase_price: number()
+      .typeError("Precio debe ser numero")
+      .required("Precio de venta requerido"),
+    bulk_price: number().typeError("Precio debe ser numero minimo 0"),
+  });
 
   const handleChange = (e) => {
     if (e.target.name === "bulk") {
@@ -51,7 +67,7 @@ const Products = () => {
     }
   };
 
-  const handleSave = () => {
+  const editProduct = () => {
     dispatch(updateProducts(product));
     setProducts((prevRows) =>
       prevRows.map((row) =>
@@ -67,10 +83,43 @@ const Products = () => {
       bulk_price: "",
       bulk: false,
     });
+    setNewProduct(true);
+  };
+
+  const createProduct = () => {
+    console.log("create product");
+  };
+
+  const handleSave = async () => {
+    let er = {};
+    if (!newProduct) {
+      editProduct();
+    } else {
+      await schema
+        .validate(product, { abortEarly: false })
+        .catch(function (err) {
+          err.inner.forEach((e) => {
+            er = {
+              ...er,
+              [e.path]: e.message,
+            };
+
+            setErrors(er);
+          });
+        })
+        .then(() => {
+          if (Object.keys(er).length === 0) {
+            setErrors({});
+
+            console.log("No hay errores", er);
+          }
+        });
+    }
   };
 
   const handleEdit = useCallback(
     (product) => () => {
+      setNewProduct(false);
       setProduct({ ...product.row });
     },
     []
@@ -103,9 +152,11 @@ const Products = () => {
         <Grid item xs={4}>
           <Item>
             <ProductForm
+              errors={errors}
               handleChange={handleChange}
               product={product}
               handleSave={handleSave}
+              newProduct={newProduct}
             />
           </Item>
         </Grid>
