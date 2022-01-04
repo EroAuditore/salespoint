@@ -43,7 +43,8 @@ export const productsReducer = (state = initialState, action) => {
     case CREATE_PRODUCTS:
       return { ...state };
     case CREATE_SUCCESS:
-      return { ...state };
+      action.result.data.data._id = action.result.data.data.id;
+      return { ...state, data: [...state.data, action.result.data.data] };
     case CREATE_FAIL:
       return { ...state };
     default:

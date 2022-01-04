@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { object, string, number } from "yup";
 
 import ProductForm from "./ProductForm";
-import { updateProducts } from "./../../redux/actions/products";
+import { updateProducts, createProducts } from "./../../redux/actions/products";
 import Toast from "./../common/Toast";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const Products = () => {
   const { data } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
 
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
@@ -34,8 +35,6 @@ const Products = () => {
     bulk_price: "",
     bulk: false,
   });
-
-  const dispatch = useDispatch();
 
   const schema = object({
     description: string().required("Desscripción es requerida"),
@@ -87,6 +86,17 @@ const Products = () => {
   };
 
   const createProduct = () => {
+    dispatch(createProducts(product));
+    setProducts([...products, product]);
+    setProduct({
+      id: 0,
+      description: "",
+      code: "",
+      sale_price: "",
+      purchase_price: "",
+      bulk_price: "",
+      bulk: false,
+    });
     console.log("create product");
   };
 
@@ -110,8 +120,7 @@ const Products = () => {
         .then(() => {
           if (Object.keys(er).length === 0) {
             setErrors({});
-
-            console.log("No hay errores", er);
+            createProduct();
           }
         });
     }
