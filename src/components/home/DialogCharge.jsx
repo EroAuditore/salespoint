@@ -59,6 +59,7 @@ const DialogCharge = ({
   cantidad,
   handleChange,
   inputChargeRef,
+  handleKeyDown,
 }) => {
   return (
     <BootstrapDialog
@@ -102,6 +103,7 @@ const DialogCharge = ({
               onChange={handleChange}
               value={cantidad}
               inputRef={inputChargeRef}
+              onKeyDown={handleKeyDown}
             />
           </Grid>
           <Grid item xs={6}>

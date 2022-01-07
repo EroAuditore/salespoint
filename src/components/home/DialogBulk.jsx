@@ -59,6 +59,8 @@ const DialogBulk = ({
   monto,
   handleChange,
   inputChargeRef,
+  handleKeyDown,
+  addBulkProduct,
 }) => {
   return (
     <BootstrapDialog
@@ -112,12 +114,13 @@ const DialogBulk = ({
               onChange={handleChange}
               value={monto}
               inputRef={inputChargeRef}
+              onKeyDown={handleKeyDown}
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Agregar</Button>
+        <Button onClick={addBulkProduct}>Agregar</Button>
       </DialogActions>
     </BootstrapDialog>
   );

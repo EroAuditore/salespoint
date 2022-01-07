@@ -77,9 +77,16 @@ const Home = () => {
       bulkRef.current.focus();
     }, 100);
   };
-  const handleCloseBulk = () => {
+
+  const addBulkProduct = () => {
     setTotal(parseFloat(total) + parseFloat(bulkProduct.total));
     setPurchase([...purchase, bulkProduct]);
+    setOpenbulk(false);
+    setTimeout(() => {
+      codeRef.current.focus();
+    }, 100);
+  };
+  const handleCloseBulk = () => {
     setBarcode("");
     setOpenbulk(false);
     setTimeout(() => {
@@ -102,7 +109,6 @@ const Home = () => {
         product.quantity = 1;
         if (product.bulk === true) {
           //display bulk dialog to get the price
-
           setBulkProduct({ ...product });
           handleOpenBulk();
         } else {
@@ -116,7 +122,6 @@ const Home = () => {
       setBarcode("");
     }
     if (e.key === "c" || e.key === "C") {
-      console.log("Cobrar");
       setBarcode("");
     }
   };
@@ -125,6 +130,16 @@ const Home = () => {
     codeRef.current.focus();
   }, []);
 
+  const OnKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (openBulk) {
+        addBulkProduct();
+      }
+      if (open) {
+        console.log("Close sell");
+      }
+    }
+  };
   const deleteItem = useCallback(
     (product) => () => {
       setTotal(total - product.row.total);
@@ -173,6 +188,7 @@ const Home = () => {
         cambio={cambio}
         handleChange={handleChange}
         inputChargeRef={inputChargeRef}
+        handleKeyDown={OnKeyDown}
       />
       <DialogBulk
         handleClose={handleCloseBulk}
@@ -182,6 +198,8 @@ const Home = () => {
         cantidad={cantidad}
         handleChange={handleChangeBulk}
         inputChargeRef={bulkRef}
+        handleKeyDown={OnKeyDown}
+        addBulkProduct={addBulkProduct}
       />
     </Box>
   );

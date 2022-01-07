@@ -85,23 +85,10 @@ const TableItems = ({ items, remove }) => {
             label="Delete"
             onClick={remove(params)}
           />,
-          // <GridActionsCellItem
-          //   icon={<SecurityIcon />}
-          //   label="Toggle Admin"
-          //   // onClick={toggleAdmin(params.id)}
-          //   showInMenu
-          // />,
-          // <GridActionsCellItem
-          //   icon={<FileCopyIcon />}
-          //   label="Duplicate User"
-          //   // onClick={duplicateUser(params.id)}
-          //   showInMenu
-          // />,
         ],
       },
     ],
     [remove]
-    // [deleteUser, toggleAdmin, duplicateUser],
   );
   return (
     <DataGrid
