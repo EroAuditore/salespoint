@@ -1,11 +1,11 @@
-import React from 'react';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import React from "react";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import SecurityIcon from '@mui/icons-material/Security';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
+import DeleteIcon from "@mui/icons-material/Delete";
+// import SecurityIcon from "@mui/icons-material/Security";
+// import FileCopyIcon from "@mui/icons-material/FileCopy";
 
-const TableItems = ({ items }) => {
+const TableItems = ({ items, remove }) => {
   // const columns = [
   //   { field: 'id', headerName: 'ID', width: 20 },
   //   {
@@ -49,58 +49,58 @@ const TableItems = ({ items }) => {
 
   const columns = React.useMemo(
     () => [
-      { field: '_id', headerName: 'No', width: 20 },
+      { field: "_id", headerName: "No", width: 20 },
       {
-        field: 'description',
-        headerName: 'Descriptivo',
-        width: 250,
+        field: "description",
+        headerName: "Descriptivo",
+        width: 300,
       },
-      { field: 'quantity', headerName: 'Cantidad', width: 80 },
+      { field: "quantity", headerName: "Cantidad", width: 80 },
       {
-        field: 'sale_price',
-        headerName: 'Precio',
-        type: 'number',
-        width: 90,
-      },
-      {
-        field: 'bulk_price',
-        headerName: 'Precio granel',
-        type: 'number',
+        field: "sale_price",
+        headerName: "Precio",
+        type: "number",
         width: 120,
       },
       {
-        field: 'sub_total',
-        headerName: 'Sub total',
-        width: 80,
-        type: 'number',
+        field: "bulk_price",
+        headerName: "Precio granel",
+        type: "number",
+        width: 120,
       },
-      { field: 'total', headerName: 'Total', width: 80, type: 'number' },
       {
-        field: 'actions',
-        type: 'actions',
+        field: "sub_total",
+        headerName: "Sub total",
+        width: 120,
+        type: "number",
+      },
+      { field: "total", headerName: "Total", width: 120, type: "number" },
+      {
+        field: "actions",
+        type: "actions",
         width: 80,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            // onClick={deleteUser(params.id)}
+            onClick={remove(params)}
           />,
-          <GridActionsCellItem
-            icon={<SecurityIcon />}
-            label="Toggle Admin"
-            // onClick={toggleAdmin(params.id)}
-            showInMenu
-          />,
-          <GridActionsCellItem
-            icon={<FileCopyIcon />}
-            label="Duplicate User"
-            // onClick={duplicateUser(params.id)}
-            showInMenu
-          />,
+          // <GridActionsCellItem
+          //   icon={<SecurityIcon />}
+          //   label="Toggle Admin"
+          //   // onClick={toggleAdmin(params.id)}
+          //   showInMenu
+          // />,
+          // <GridActionsCellItem
+          //   icon={<FileCopyIcon />}
+          //   label="Duplicate User"
+          //   // onClick={duplicateUser(params.id)}
+          //   showInMenu
+          // />,
         ],
       },
     ],
-    []
+    [remove]
     // [deleteUser, toggleAdmin, duplicateUser],
   );
   return (

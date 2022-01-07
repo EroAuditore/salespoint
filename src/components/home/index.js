@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import uuid from "react-uuid";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
@@ -125,7 +125,13 @@ const Home = () => {
     codeRef.current.focus();
   }, []);
 
-  const deleteItem = () => {};
+  const deleteItem = useCallback(
+    (product) => () => {
+      setTotal(total - product.row.total);
+      setPurchase(purchase.filter((item) => item.id !== product.id));
+    },
+    [purchase]
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -145,7 +151,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={9}>
           <Item>
-            <TableItems items={purchase} />
+            <TableItems items={purchase} remove={deleteItem} />
           </Item>
         </Grid>
         <Grid item xs={3}>
