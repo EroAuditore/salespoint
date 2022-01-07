@@ -11,6 +11,7 @@ import TableItems from "./TableItems";
 import ActionsCard from "./ActionsCard";
 import DialogCharge from "./DialogCharge";
 import DialogBulk from "./DialogBulk";
+import SaveSell from "./sellApi";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -65,10 +66,13 @@ const Home = () => {
     setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 100);
+    setCantidad("");
     setTimeout(() => {
       codeRef.current.focus();
-    }, 100);
+    }, 200);
   };
 
   const handleOpenBulk = () => {
@@ -86,6 +90,23 @@ const Home = () => {
       codeRef.current.focus();
     }, 100);
   };
+
+  const closeSell = () => {
+    let todayDate = new Date().toISOString();
+    let sell = {
+      sell: {
+        total: total,
+        date: todayDate,
+        credit: false,
+      },
+    };
+    SaveSell(sell);
+    setTotal(0);
+    setCambio(0);
+    setPurchase([]);
+    handleClose();
+  };
+
   const handleCloseBulk = () => {
     setBarcode("");
     setOpenbulk(false);
@@ -121,8 +142,8 @@ const Home = () => {
       }
       setBarcode("");
     }
-    if (e.key === "c" || e.key === "C") {
-      setBarcode("");
+    if (e.key === "F2" || e.key === "c" || e.key === "C") {
+      handleOpen();
     }
   };
 
@@ -136,7 +157,7 @@ const Home = () => {
         addBulkProduct();
       }
       if (open) {
-        console.log("Close sell");
+        closeSell();
       }
     }
   };
@@ -189,6 +210,7 @@ const Home = () => {
         handleChange={handleChange}
         inputChargeRef={inputChargeRef}
         handleKeyDown={OnKeyDown}
+        closeSell={closeSell}
       />
       <DialogBulk
         handleClose={handleCloseBulk}
