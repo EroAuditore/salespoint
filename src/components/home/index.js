@@ -166,7 +166,7 @@ const Home = () => {
       setTotal(total - product.row.total);
       setPurchase(purchase.filter((item) => item.id !== product.id));
     },
-    [purchase]
+    [purchase, total]
   );
 
   return (
