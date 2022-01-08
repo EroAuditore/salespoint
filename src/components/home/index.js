@@ -11,14 +11,14 @@ import TableItems from "./TableItems";
 import ActionsCard from "./ActionsCard";
 import DialogCharge from "./DialogCharge";
 import DialogBulk from "./DialogBulk";
-import SaveSell from "./sellApi";
+import SalveSale from "./SalesApi";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
-  height: "500px",
+  height: "550px",
 }));
 
 const Home = () => {
@@ -91,16 +91,16 @@ const Home = () => {
     }, 100);
   };
 
-  const closeSell = () => {
+  const closeSale = () => {
     let todayDate = new Date().toISOString();
-    let sell = {
-      sell: {
+    let sale = {
+      sale: {
         total: total,
         date: todayDate,
         credit: false,
       },
     };
-    SaveSell(sell);
+    SalveSale(sale);
     setTotal(0);
     setCambio(0);
     setPurchase([]);
@@ -157,7 +157,7 @@ const Home = () => {
         addBulkProduct();
       }
       if (open) {
-        closeSell();
+        closeSale();
       }
     }
   };
@@ -210,7 +210,7 @@ const Home = () => {
         handleChange={handleChange}
         inputChargeRef={inputChargeRef}
         handleKeyDown={OnKeyDown}
-        closeSell={closeSell}
+        closeSale={closeSale}
       />
       <DialogBulk
         handleClose={handleCloseBulk}

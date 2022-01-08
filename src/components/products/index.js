@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import TableItems from "./TableItems";
 import { useSelector, useDispatch } from "react-redux";
@@ -97,7 +98,6 @@ const Products = () => {
       bulk_price: "",
       bulk: false,
     });
-    console.log("create product");
   };
 
   const handleSave = async () => {
@@ -146,18 +146,26 @@ const Products = () => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextField
-            id="txtSearch"
-            name="txtSearch"
-            label="Busqueda producto"
-            variant="outlined"
-            fullWidth
-            value={searchText}
-            onChange={handleChangeSearch}
-            onKeyDown={handleKeyDown}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={10}>
+              <TextField
+                id="txtSearch"
+                name="txtSearch"
+                label="Busqueda producto"
+                variant="outlined"
+                fullWidth
+                value={searchText}
+                onChange={handleChangeSearch}
+                onKeyDown={handleKeyDown}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Button variant="contained" fullWidth height="100">
+                Buscar
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-
         <Grid item xs={4}>
           <Item>
             <ProductForm

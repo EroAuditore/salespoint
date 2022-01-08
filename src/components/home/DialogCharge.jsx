@@ -60,7 +60,7 @@ const DialogCharge = ({
   handleChange,
   inputChargeRef,
   handleKeyDown,
-  closeSell,
+  closeSale,
 }) => {
   return (
     <BootstrapDialog
@@ -120,7 +120,7 @@ const DialogCharge = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={closeSell}>
+        <Button autoFocus onClick={closeSale}>
           Cobrar
         </Button>
       </DialogActions>
