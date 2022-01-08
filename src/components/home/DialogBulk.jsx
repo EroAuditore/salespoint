@@ -51,16 +51,16 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const DialogCharge = ({
+const DialogBulk = ({
   handleClose,
   open,
-  Total,
-  cambio,
-  cantidad,
+  sale_price,
+  bulk_price,
+  monto,
   handleChange,
   inputChargeRef,
   handleKeyDown,
-  closeSell,
+  addBulkProduct,
 }) => {
   return (
     <BootstrapDialog
@@ -69,20 +69,20 @@ const DialogCharge = ({
       open={open}
     >
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-        Cobrar
+        Agregar
       </BootstrapDialogTitle>
       <DialogContent dividers>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography variant="h2" gutterBottom color="textPrimary">
-              Total:
+              Precio:
             </Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h2" gutterBottom color="textPrimary">
               <CountUp
-                start={Total}
-                end={Total}
+                start={sale_price}
+                end={sale_price}
                 duration={2}
                 separator=","
                 decimals={2}
@@ -91,41 +91,39 @@ const DialogCharge = ({
               />
             </Typography>
           </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h2" gutterBottom color="textPrimary">
+              Precio a granel:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h2" gutterBottom color="textPrimary">
+              {bulk_price}
+            </Typography>
+          </Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <TextField
               id="outlined-number"
-              label="Cantidad"
+              label="Monto"
               type="number"
               InputLabelProps={{
                 shrink: true,
               }}
               fullWidth
               onChange={handleChange}
-              value={cantidad}
+              value={monto}
               inputRef={inputChargeRef}
               onKeyDown={handleKeyDown}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h2" gutterBottom color="textPrimary">
-              Cambio:
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h2" gutterBottom color="textPrimary">
-              {cambio}
-            </Typography>
-          </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={closeSell}>
-          Cobrar
-        </Button>
+        <Button onClick={addBulkProduct}>Agregar</Button>
       </DialogActions>
     </BootstrapDialog>
   );
 };
 
-export default DialogCharge;
+export default DialogBulk;
