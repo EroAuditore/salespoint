@@ -11,7 +11,7 @@ import TableItems from "./TableItems";
 import ActionsCard from "./ActionsCard";
 import DialogCharge from "./DialogCharge";
 import DialogBulk from "./DialogBulk";
-import SalveSale from "./SalesApi";
+import SaveSale from "./SalesApi";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -93,14 +93,20 @@ const Home = () => {
 
   const closeSale = () => {
     let todayDate = new Date().toISOString();
+    let ticket = JSON.parse(JSON.stringify(purchase));
+
     let sale = {
       sale: {
         total: total,
         date: todayDate,
         credit: false,
       },
+      ticket,
     };
-    SalveSale(sale);
+
+    let json = JSON.stringify(sale);
+
+    SaveSale(json);
     setTotal(0);
     setCambio(0);
     setPurchase([]);
