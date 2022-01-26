@@ -60,6 +60,7 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
+
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -137,12 +138,12 @@ export default function Layout({ children }) {
         </List>
         <Divider />
         <List>
-          {["Reportes"].map((text, index) => (
-            <ListItem button key={text}>
+          {[["Ventas", "/reports"]].map((text, index) => (
+            <ListItem button key={text[0]} component={Link} to={text[1]}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text[0]} />
             </ListItem>
           ))}
         </List>
