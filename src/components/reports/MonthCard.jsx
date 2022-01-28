@@ -32,13 +32,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const WeekCard = ({ weekData }) => {
+const MonthCard = ({ monthData }) => {
   let data = {
-    labels: weekData.label,
+    labels: monthData.label,
     datasets: [
       {
         label: "Ventas",
-        data: weekData.data,
+        data: monthData.data,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -52,7 +52,7 @@ const WeekCard = ({ weekData }) => {
       },
       title: {
         display: true,
-        text: "Semanal",
+        text: "Mensual",
       },
     },
   };
@@ -64,4 +64,4 @@ const WeekCard = ({ weekData }) => {
   );
 };
 
-export default WeekCard;
+export default MonthCard;
