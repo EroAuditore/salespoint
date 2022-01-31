@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { loadProducts } from "./redux/actions/products";
 import Products from "./components/products";
 import Reports from "./components/reports";
+import Clients from "./components/clients";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ function App() {
     <Router>
       <Layout>
         <Switch>
+          <Route path="/creditos" exact component={Reports} />
+          <Route path="/clients" exact component={Clients} />
           <Route path="/reports" exact component={Reports} />
           <Route path="/products" exact component={Products} />
           <Route path="/" exact component={Home} />

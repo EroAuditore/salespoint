@@ -177,6 +177,7 @@ const Products = () => {
                 fullWidth
                 height="100"
                 onClick={lookUpProduct}
+                sx={{ height: "100%" }}
               >
                 Buscar
               </Button>
