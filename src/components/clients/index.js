@@ -1,20 +1,48 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-// import TableItems from "./TableItems";
-import { useSelector, useDispatch } from "react-redux";
-import { object, string, number } from "yup";
-import AddIcon from "@mui/icons-material/Add";
+import TableItems from "./TableItems";
+import { useDispatch, useSelector } from "react-redux";
 
-import { updateProducts, createProducts } from "./../../redux/actions/products";
-import Toast from "./../common/Toast";
-import { Drawer, Fab } from "@mui/material";
-import Box from "@mui/material/Box";
+import { addClient, fetch, removeClient } from "../../redux/reducers/clients";
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  height: "590px",
+}));
 
 const Clients = () => {
+  const [client, setClient] = useState("");
+  const dispatch = useDispatch();
+
+  const hanldeAddClient = () => {
+    let cliente = {
+      name: client,
+    };
+    dispatch(addClient(cliente));
+    setClient("");
+  };
+  const handleChangeClient = (e) => {
+    setClient(e.target.value);
+  };
+
+  const items = useSelector((sate) => sate.clients.clients);
+  const deleteCliente = useCallback(
+    (cliente) => () => {
+      dispatch(removeClient(cliente.row));
+    },
+    []
+  );
+
+  useEffect(() => {
+    dispatch(fetch());
+  }, []);
   return (
     <>
       <Grid container spacing={2}>
@@ -22,13 +50,13 @@ const Clients = () => {
           <Grid container spacing={2}>
             <Grid item xs={10}>
               <TextField
-                id="txtSearch"
-                name="txtSearch"
-                label="Busqueda producto"
+                id="txtClient"
+                name="txtClient"
+                label="Nombre del cliente"
                 variant="outlined"
                 fullWidth
-                // value={searchText}
-                // onChange={handleChangeSearch}
+                value={client}
+                onChange={handleChangeClient}
                 // onKeyDown={handleKeyDown}
               />
             </Grid>
@@ -37,11 +65,16 @@ const Clients = () => {
                 variant="contained"
                 fullWidth
                 height="100"
-                // onClick={lookUpProduct}
+                onClick={hanldeAddClient}
                 sx={{ height: "100%" }}
               >
                 Agregar
               </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Item>
+                <TableItems items={items} deleteCliente={deleteCliente} />
+              </Item>
             </Grid>
           </Grid>
         </Grid>
