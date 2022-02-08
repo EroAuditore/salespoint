@@ -14,7 +14,7 @@ const grdStyle = {
   justifyContent: "center",
 };
 
-const ActionsCard = ({ handleOpen }) => {
+const ActionsCard = ({ handleOpen, handleOpenCredit }) => {
   return (
     <Item>
       <Grid container spacing={2}>
@@ -24,7 +24,7 @@ const ActionsCard = ({ handleOpen }) => {
           </Button>
         </Grid>
         <Grid item xs={6} sx={grdStyle}>
-          <Button variant="contained" size="large" onClick={handleOpen}>
+          <Button variant="contained" size="large" onClick={handleOpenCredit}>
             Credito
           </Button>
         </Grid>

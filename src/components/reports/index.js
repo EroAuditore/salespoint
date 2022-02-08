@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import Grid from "@mui/material/Grid";
-import TotalCard from "./TotalCard";
 import WeekCard from "./WeekCard";
 import { SalesDay, SalesWeek, SalesMonth } from "./ReportsApi";
 import MonthCard from "./MonthCard";
+import TotalCard from "./../common/TotalCard";
 
 const Reports = () => {
   const [totalDia, setTotalDia] = useState(0);
