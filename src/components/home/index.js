@@ -6,29 +6,43 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import TotalCard from "./TotalCard";
+import TotalCard from "./../common/TotalCard";
 import TableItems from "./TableItems";
 import ActionsCard from "./ActionsCard";
 import DialogCharge from "./DialogCharge";
 import DialogBulk from "./DialogBulk";
-import SaveSell from "./sellApi";
+import {
+  SaveSale,
+  fetchClients,
+  SaveCredit,
+  getClientCreditInfo,
+} from "./SalesApi";
+
+import DialogCredit from "./DialogCredit";
+import DialogAlert from "./../common/DialogAlert";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
-  height: "500px",
+  height: "550px",
 }));
 
 const Home = () => {
   const [barCode, setBarcode] = useState("");
   const [purchase, setPurchase] = useState([]);
+  const [clientsList, setClientsList] = useState([]);
+  const [selectedClient, setSelectedClient] = useState("0");
   const data = useSelector((state) => state.products);
   const [total, setTotal] = useState(0);
+  const [totalCredito, setTotalCredito] = useState(0);
+  const [montoTotal, setMontoTotal] = useState(0);
   const [cambio, setCambio] = useState(0);
   const [cantidad, setCantidad] = useState("");
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openCredit, setOpenCredit] = useState(false);
   const [openBulk, setOpenbulk] = useState(false);
   const [bulkProduct, setBulkProduct] = useState({
     id: 0,
@@ -54,6 +68,20 @@ const Home = () => {
     setBarcode(e.target.value);
   };
 
+  const handleCloseCredit = () => {
+    setTimeout(() => {
+      setSelectedClient("");
+      setOpenCredit(false);
+      setTotalCredito(0);
+      setMontoTotal(0);
+      toggleAlert();
+    }, 100);
+
+    setTimeout(() => {
+      codeRef.current.focus();
+    }, 200);
+  };
+
   const handleChange = (e) => {
     setCantidad(e.target.value);
     setCambio(e.target.value - total);
@@ -64,6 +92,10 @@ const Home = () => {
       inputChargeRef.current.focus();
     }, 100);
     setOpen(true);
+  };
+
+  const handleOpenCredit = () => {
+    setOpenCredit(true);
   };
   const handleClose = () => {
     setTimeout(() => {
@@ -91,22 +123,52 @@ const Home = () => {
     }, 100);
   };
 
-  const closeSell = () => {
+  const closeSale = () => {
     let todayDate = new Date().toISOString();
-    let sell = {
-      sell: {
+    let ticket = JSON.parse(JSON.stringify(purchase));
+
+    let sale = {
+      sale: {
         total: total,
         date: todayDate,
         credit: false,
       },
+      ticket,
     };
-    SaveSell(sell);
+
+    let json = JSON.stringify(sale);
+
+    SaveSale(json);
     setTotal(0);
     setCambio(0);
     setPurchase([]);
     handleClose();
   };
 
+  const closeCredit = () => {
+    let todayDate = new Date().toISOString();
+    let ticket = JSON.parse(JSON.stringify(purchase));
+
+    let sale = {
+      sale: {
+        total: total,
+        date: todayDate,
+        credit: true,
+      },
+      ticket,
+      total: montoTotal,
+      client_id: selectedClient,
+    };
+    let json = JSON.stringify(sale);
+    console.log("credit save", json);
+    SaveCredit(json);
+    setTotal(0);
+    setCambio(0);
+    setTotalCredito(0);
+    setMontoTotal(0);
+    setPurchase([]);
+    handleCloseCredit();
+  };
   const handleCloseBulk = () => {
     setBarcode("");
     setOpenbulk(false);
@@ -147,8 +209,14 @@ const Home = () => {
     }
   };
 
+  const loadClients = async () => {
+    const result = await fetchClients();
+    setClientsList(result.data.data);
+  };
+
   useEffect(() => {
     codeRef.current.focus();
+    loadClients();
   }, []);
 
   const OnKeyDown = (e) => {
@@ -157,7 +225,7 @@ const Home = () => {
         addBulkProduct();
       }
       if (open) {
-        closeSell();
+        closeSale();
       }
     }
   };
@@ -169,6 +237,23 @@ const Home = () => {
     [purchase, total]
   );
 
+  const getClientInfo = async (ClientID) => {
+    const { data } = await getClientCreditInfo(ClientID);
+    console.log("data info", data.data);
+    setTotalCredito(parseFloat(data.data.total));
+    setMontoTotal(parseFloat(data.data.total) + parseFloat(total));
+  };
+
+  const handleChangeClient = (event) => {
+    setSelectedClient(event.target.value);
+    getClientInfo(event.target.value);
+  };
+  /**alert handlers ***/
+  const toggleAlert = () => {
+    setOpenAlert(!openAlert);
+  };
+
+  /*******************/
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -185,18 +270,21 @@ const Home = () => {
             inputRef={codeRef}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item md={9} xs={12}>
           <Item>
             <TableItems items={purchase} remove={deleteItem} />
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TotalCard total={total} />
             </Grid>
             <Grid item xs={12}>
-              <ActionsCard handleOpen={handleOpen} />
+              <ActionsCard
+                handleOpen={handleOpen}
+                handleOpenCredit={handleOpenCredit}
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -210,7 +298,18 @@ const Home = () => {
         handleChange={handleChange}
         inputChargeRef={inputChargeRef}
         handleKeyDown={OnKeyDown}
-        closeSell={closeSell}
+        closeSale={closeSale}
+      />
+      <DialogCredit
+        handleClose={handleCloseCredit}
+        open={openCredit}
+        Total={total}
+        totalCredito={totalCredito}
+        montoTotal={montoTotal}
+        closeCredit={toggleAlert}
+        clientsList={clientsList}
+        selectedClient={selectedClient}
+        handleChange={handleChangeClient}
       />
       <DialogBulk
         handleClose={handleCloseBulk}
@@ -222,6 +321,12 @@ const Home = () => {
         inputChargeRef={bulkRef}
         handleKeyDown={OnKeyDown}
         addBulkProduct={addBulkProduct}
+      />
+      <DialogAlert
+        handleClose={toggleAlert}
+        handleOk={closeCredit}
+        text={"Se va a cargar al credito de:"}
+        open={openAlert}
       />
     </Box>
   );

@@ -53,7 +53,7 @@ const TableItems = ({ items, remove }) => {
       {
         field: "description",
         headerName: "Descriptivo",
-        width: 300,
+        width: 230,
       },
       { field: "quantity", headerName: "Cantidad", width: 80 },
       {
@@ -66,7 +66,7 @@ const TableItems = ({ items, remove }) => {
         field: "bulk_price",
         headerName: "Precio granel",
         type: "number",
-        width: 120,
+        width: 100,
       },
       {
         field: "sub_total",
@@ -74,7 +74,7 @@ const TableItems = ({ items, remove }) => {
         width: 120,
         type: "number",
       },
-      { field: "total", headerName: "Total", width: 120, type: "number" },
+      { field: "total", headerName: "Total", width: 100, type: "number" },
       {
         field: "actions",
         type: "actions",

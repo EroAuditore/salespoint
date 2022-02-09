@@ -19,9 +19,9 @@ const TotalCard = ({ total }) => {
       </Typography>
       <Typography variant="h2" gutterBottom color="textPrimary">
         <CountUp
-          start={total}
+          start={0}
           end={total}
-          duration={2}
+          duration={1}
           separator=","
           decimals={2}
           decimal="."
