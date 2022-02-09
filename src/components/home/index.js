@@ -19,6 +19,7 @@ import {
 } from "./SalesApi";
 
 import DialogCredit from "./DialogCredit";
+import DialogAlert from "./../common/DialogAlert";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -40,6 +41,7 @@ const Home = () => {
   const [cambio, setCambio] = useState(0);
   const [cantidad, setCantidad] = useState("");
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [openCredit, setOpenCredit] = useState(false);
   const [openBulk, setOpenbulk] = useState(false);
   const [bulkProduct, setBulkProduct] = useState({
@@ -72,6 +74,7 @@ const Home = () => {
       setOpenCredit(false);
       setTotalCredito(0);
       setMontoTotal(0);
+      toggleAlert();
     }, 100);
 
     setTimeout(() => {
@@ -236,16 +239,21 @@ const Home = () => {
 
   const getClientInfo = async (ClientID) => {
     const { data } = await getClientCreditInfo(ClientID);
-    setTotalCredito(parseFloat(data.data[0].total));
-    setMontoTotal(parseFloat(data.data[0].total) + parseFloat(total));
-    console.log("data info", data.data[0]);
+    console.log("data info", data.data);
+    setTotalCredito(parseFloat(data.data.total));
+    setMontoTotal(parseFloat(data.data.total) + parseFloat(total));
   };
 
   const handleChangeClient = (event) => {
     setSelectedClient(event.target.value);
     getClientInfo(event.target.value);
   };
+  /**alert handlers ***/
+  const toggleAlert = () => {
+    setOpenAlert(!openAlert);
+  };
 
+  /*******************/
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -262,12 +270,12 @@ const Home = () => {
             inputRef={codeRef}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item md={9} xs={12}>
           <Item>
             <TableItems items={purchase} remove={deleteItem} />
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TotalCard total={total} />
@@ -298,7 +306,7 @@ const Home = () => {
         Total={total}
         totalCredito={totalCredito}
         montoTotal={montoTotal}
-        closeCredit={closeCredit}
+        closeCredit={toggleAlert}
         clientsList={clientsList}
         selectedClient={selectedClient}
         handleChange={handleChangeClient}
@@ -313,6 +321,12 @@ const Home = () => {
         inputChargeRef={bulkRef}
         handleKeyDown={OnKeyDown}
         addBulkProduct={addBulkProduct}
+      />
+      <DialogAlert
+        handleClose={toggleAlert}
+        handleOk={closeCredit}
+        text={"Se va a cargar al credito de:"}
+        open={openAlert}
       />
     </Box>
   );

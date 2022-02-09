@@ -1,5 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import TextField from "@mui/material/TextField";
+import moment from "moment";
 
 const TableItems = ({ items }) => {
   const columns = React.useMemo(
@@ -12,6 +14,15 @@ const TableItems = ({ items }) => {
       },
 
       { field: "total", headerName: "Total", width: 100, type: "number" },
+      {
+        field: "created_at",
+        headerName: "Fecha",
+        width: 230,
+        // type: "date",
+        renderCell: (params) => (
+          <>{moment(Date.parse(params.row.created_at)).format("YYYY-MM-DD")}</>
+        ),
+      },
     ],
     []
   );

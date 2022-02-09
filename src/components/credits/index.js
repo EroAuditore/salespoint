@@ -23,6 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const useStyles = makeStyles(() => ({
   formControl: {
     margin: "1rem",
+    width: "100%",
     minWidth: 120,
   },
   selectEmpty: {
@@ -101,12 +102,12 @@ const Credits = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item md={8} xs={12}>
           <Item>
             <TableItems items={tickets} />
           </Item>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item md={4} xs={12}>
           <TotalCard total={creditInfo.total} />
           <Button
             variant="contained"
