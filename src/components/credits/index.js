@@ -10,6 +10,7 @@ import { FormControl, MenuItem, Select } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import TotalCard from "./../common/TotalCard";
 import DialogAlert from "../common/DialogAlert";
+import { CloseCredit } from "./CreditAPI";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -46,7 +47,7 @@ const Credits = () => {
     setTickets([]);
     setSelectedClient("0");
     setCreditInfo({ total: 0 });
-    console.log("creditInfo", creditInfo);
+    CloseCredit(creditInfo);
   };
 
   const getClientInfo = async (ClientID) => {
